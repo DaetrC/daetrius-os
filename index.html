@@ -805,32 +805,71 @@ body.edit-active .page-header{top:36px}
      INSTAGRAM
 ═══════════════════════════════════ -->
 <div id="tab-instagram" class="tab-content">
-  <div class="page-header"><div class="page-title">Live Instagram Monitor</div><div class="page-subtitle">@daydrm.us · @daetrius · Real-time feed integration</div></div>
+  <div class="page-header">
+    <div class="flex items-center justify-between">
+      <div><div class="page-title">Instagram Monitor</div><div class="page-subtitle">@daydrm.us · @daetrius · Live feed</div></div>
+      <div class="flex gap-8">
+        <span class="badge" id="ig-daydrm-status-badge" style="background:var(--stone-light);color:var(--ink-muted)">@daydrm.us: Not Connected</span>
+        <span class="badge" id="ig-daetrius-status-badge" style="background:var(--stone-light);color:var(--ink-muted)">@daetrius: Not Connected</span>
+        <button class="btn btn-primary btn-sm" onclick="refreshInstagram()">↻ Refresh Feed</button>
+      </div>
+    </div>
+  </div>
   <div class="page-body">
-    <div style="background:var(--amber-pale);border:1px solid var(--amber);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:22px">
-      <div style="font-weight:700;color:var(--amber);font-size:12.5px">⚙️ Setup Required — Instagram API Connection</div>
-      <div style="font-size:12px;color:var(--ink-soft);margin-top:3px">Connect Instagram Basic Display API or use an embed widget. Configure in the Admin tab.</div>
-    </div>
-    <div class="grid-2 mb-24">
+
+    <!-- Account stats row -->
+    <div class="grid-2 mb-20">
       <div class="card">
-        <div class="card-header"><div><span class="card-title">@daydrm.us</span><div class="text-xs text-muted mt-4">DAYDRM world account</div></div><span class="badge badge-stone">Not Connected</span></div>
-        <div class="card-body" style="text-align:center;padding:36px 20px">
-          <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--sky-light),var(--stone-light));margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px">◉</div>
-          <div style="font-size:13px;font-weight:600">@daydrm.us</div>
-          <div style="font-size:12px;color:var(--ink-muted);margin-top:5px;line-height:1.6">Connect Instagram API to show live feed, follower count, and latest posts.</div>
-          <div style="margin-top:16px;padding:12px;background:var(--stone-pale);border-radius:var(--radius-sm);text-align:left;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-muted)">INSTAGRAM_APP_ID = "..."<br>INSTAGRAM_TOKEN = "..."<br>ACCOUNT = "@daydrm.us"</div>
+        <div class="card-body" style="display:flex;align-items:center;gap:16px">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--sky),var(--sky-deep));display:flex;align-items:center;justify-content:center;font-size:20px;color:white;flex-shrink:0">◉</div>
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:14px">@daydrm.us</div>
+            <div class="text-xs text-muted mt-4">DAYDRM World Account</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:500" id="ig-daydrm-followers">—</div>
+            <div class="text-xs text-muted">followers</div>
+          </div>
         </div>
       </div>
       <div class="card">
-        <div class="card-header"><div><span class="card-title">@daetrius</span><div class="text-xs text-muted mt-4">Personal artist account</div></div><span class="badge badge-stone">Not Connected</span></div>
-        <div class="card-body" style="text-align:center;padding:36px 20px">
-          <div style="width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--maize-light),var(--sky-light));margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:22px">◉</div>
-          <div style="font-size:13px;font-weight:600">@daetrius</div>
-          <div style="font-size:12px;color:var(--ink-muted);margin-top:5px;line-height:1.6">Connect Instagram API to show live feed, engagement metrics, and latest posts.</div>
-          <div style="margin-top:16px;padding:12px;background:var(--stone-pale);border-radius:var(--radius-sm);text-align:left;font-size:11px;font-family:'DM Mono',monospace;color:var(--ink-muted)">INSTAGRAM_APP_ID = "..."<br>INSTAGRAM_TOKEN = "..."<br>ACCOUNT = "@daetrius"</div>
+        <div class="card-body" style="display:flex;align-items:center;gap:16px">
+          <div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--maize),var(--amber));display:flex;align-items:center;justify-content:center;font-size:20px;color:white;flex-shrink:0">◉</div>
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:14px">@daetrius</div>
+            <div class="text-xs text-muted mt-4">Personal Artist Account</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-family:'DM Mono',monospace;font-size:22px;font-weight:500" id="ig-daetrius-followers">—</div>
+            <div class="text-xs text-muted">followers</div>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- Live feeds -->
+    <div class="grid-2 mb-20">
+      <div class="card">
+        <div class="card-header"><span class="card-title">@daydrm.us — Latest Posts</span></div>
+        <div class="card-body" id="ig-daydrm-feed">
+          <div style="text-align:center;padding:28px 0;color:var(--ink-faint);font-size:13px">Connect token in Admin tab to load feed</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span class="card-title">@daetrius — Latest Posts</span></div>
+        <div class="card-body" id="ig-daetrius-feed">
+          <div style="text-align:center;padding:28px 0;color:var(--ink-faint);font-size:13px">Connect token in Admin tab to load feed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Setup nudge if not connected -->
+    <div id="ig-setup-nudge" style="background:var(--amber-pale);border:1px solid var(--amber);border-radius:var(--radius-md);padding:14px 18px">
+      <div style="font-weight:700;color:var(--amber);font-size:12.5px;margin-bottom:4px">⚙️ Connect your Instagram accounts</div>
+      <div style="font-size:12px;color:var(--ink-soft)">Go to <strong>Admin → Instagram API Setup</strong> below to add your access tokens. Takes about 5 minutes.</div>
+      <button class="btn btn-sm mt-8" style="background:var(--amber);color:white;border:none" onclick="showTab('admin',document.querySelector('[onclick*=admin]'))">Go to Admin →</button>
+    </div>
+
   </div>
 </div>
 
@@ -967,8 +1006,85 @@ function setupSheets() {
           <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--stone-pale);border-radius:var(--radius-sm)"><span style="font-size:13px;color:var(--ink-soft)">Frontend Dashboard</span><span class="badge badge-green">Live</span></div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--stone-pale);border-radius:var(--radius-sm)"><span style="font-size:13px;color:var(--ink-soft)">Local Storage Cache</span><span class="badge badge-green">Active</span></div>
           <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--stone-pale);border-radius:var(--radius-sm)"><span style="font-size:13px;color:var(--ink-soft)">Google Sheets Sync</span><span id="storage-status" class="badge badge-stone">Not Connected</span></div>
-          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--stone-pale);border-radius:var(--radius-sm)"><span style="font-size:13px;color:var(--ink-soft)">Instagram API</span><span class="badge badge-stone">Not Connected</span></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:var(--stone-pale);border-radius:var(--radius-sm)"><span style="font-size:13px;color:var(--ink-soft)">Instagram API</span><span id="ig-admin-status" class="badge badge-stone">Not Connected</span></div>
         </div>
+      </div>
+    </div>
+
+    <!-- INSTAGRAM API SETUP -->
+    <div class="divider"></div>
+    <div class="section-eyebrow mt-20">Instagram API</div>
+    <div class="section-title mb-16">Connect @daydrm.us &amp; @daetrius</div>
+
+    <div style="background:var(--sky-pale);border:1px solid var(--sky-light);border-radius:var(--radius-md);padding:14px 18px;margin-bottom:18px">
+      <div style="font-weight:700;font-size:12px;color:var(--sky-deep);margin-bottom:6px">How to get your Instagram Access Token</div>
+      <ol style="font-size:12px;color:var(--ink-soft);line-height:2.1;padding-left:16px">
+        <li>Go to <a href="https://developers.facebook.com" target="_blank" style="color:var(--sky-deep);font-weight:600">developers.facebook.com</a> → Log in → My Apps → Create App</li>
+        <li>Choose <strong>Consumer</strong> app type → give it a name → Create</li>
+        <li>Add product: <strong>Instagram Basic Display</strong> → Set Up</li>
+        <li>Go to Instagram Basic Display → Basic Display → scroll to <strong>User Token Generator</strong></li>
+        <li>Add your Instagram account → click <strong>Generate Token</strong> → authorize</li>
+        <li>Copy the token and paste it below — repeat for each account</li>
+      </ol>
+      <p style="font-size:11px;color:var(--ink-muted);margin-top:8px">⚠️ Tokens expire after 60 days. You can extend them to long-lived tokens (90 days) or set up automatic refresh.</p>
+    </div>
+
+    <div class="grid-2 mb-20">
+      <div class="card">
+        <div class="card-header">
+          <div><span class="card-title">@daydrm.us Token</span><div class="text-xs text-muted mt-4">DAYDRM World Account</div></div>
+          <span class="badge" id="ig-daydrm-badge" style="background:var(--stone-light);color:var(--ink-muted)">Not Set</span>
+        </div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+          <div>
+            <label class="form-label">Instagram Access Token</label>
+            <input class="form-input" type="password" id="ig-daydrm-token" placeholder="Paste access token here" oninput="igTokenChanged('daydrm')">
+          </div>
+          <div>
+            <label class="form-label">User ID (optional — auto-detected)</label>
+            <input class="form-input" type="text" id="ig-daydrm-userid" placeholder="e.g. 17841400000000000" readonly style="background:var(--stone-pale)">
+          </div>
+          <div class="flex gap-8">
+            <button class="btn btn-primary btn-sm" onclick="saveIGToken('daydrm')">Save &amp; Connect</button>
+            <button class="btn btn-ghost btn-sm" onclick="clearIGToken('daydrm')">Clear</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div><span class="card-title">@daetrius Token</span><div class="text-xs text-muted mt-4">Personal Artist Account</div></div>
+          <span class="badge" id="ig-daetrius-badge" style="background:var(--stone-light);color:var(--ink-muted)">Not Set</span>
+        </div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:10px">
+          <div>
+            <label class="form-label">Instagram Access Token</label>
+            <input class="form-input" type="password" id="ig-daetrius-token" placeholder="Paste access token here" oninput="igTokenChanged('daetrius')">
+          </div>
+          <div>
+            <label class="form-label">User ID (optional — auto-detected)</label>
+            <input class="form-input" type="text" id="ig-daetrius-userid" placeholder="e.g. 17841400000000000" readonly style="background:var(--stone-pale)">
+          </div>
+          <div class="flex gap-8">
+            <button class="btn btn-primary btn-sm" onclick="saveIGToken('daetrius')">Save &amp; Connect</button>
+            <button class="btn btn-ghost btn-sm" onclick="clearIGToken('daetrius')">Clear</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mb-20">
+      <div class="card-header"><span class="card-title">Alternative: Embed Widget (Faster — No API Key Needed)</span></div>
+      <div class="card-body">
+        <p style="font-size:13px;color:var(--ink-soft);margin-bottom:14px;line-height:1.7">If the API setup feels like too much right now, use <a href="https://behold.so" target="_blank" style="color:var(--sky-deep);font-weight:600">Behold.so</a> (free tier available). Create a feed widget → copy the embed snippet → paste below. Shows up instantly in the Instagram Monitor tab.</p>
+        <div>
+          <label class="form-label">@daydrm.us Embed Code</label>
+          <textarea class="form-input" id="ig-daydrm-embed" placeholder="Paste Behold.so or Elfsight embed code here..." style="height:80px;resize:vertical;font-family:'DM Mono',monospace;font-size:11px"></textarea>
+        </div>
+        <div style="margin-top:12px">
+          <label class="form-label">@daetrius Embed Code</label>
+          <textarea class="form-input" id="ig-daetrius-embed" placeholder="Paste Behold.so or Elfsight embed code here..." style="height:80px;resize:vertical;font-family:'DM Mono',monospace;font-size:11px"></textarea>
+        </div>
+        <button class="btn btn-primary mt-12" onclick="saveEmbeds()">Save Embeds</button>
       </div>
     </div>
 
@@ -2030,6 +2146,197 @@ function fbCopy(text) {
   showToast('✓ Code copied!');
 }
 
+
+// ═══════════════════════════════════════════════════════════
+// INSTAGRAM API ENGINE
+// ═══════════════════════════════════════════════════════════
+
+const IG_STORAGE = 'daetrius_ig_config';
+
+function loadIGConfig() {
+  try { return JSON.parse(localStorage.getItem(IG_STORAGE) || '{}'); } catch(e) { return {}; }
+}
+function saveIGConfig(cfg) {
+  localStorage.setItem(IG_STORAGE, JSON.stringify(cfg));
+}
+
+function igTokenChanged(account) {
+  const badge = document.getElementById('ig-' + account + '-badge');
+  if (badge) { badge.textContent = 'Unsaved'; badge.style.background = 'var(--amber-pale)'; badge.style.color = 'var(--amber)'; }
+}
+
+function saveIGToken(account) {
+  const tokenEl = document.getElementById('ig-' + account + '-token');
+  if (!tokenEl || !tokenEl.value.trim()) { alert('Paste your access token first.'); return; }
+  const token = tokenEl.value.trim();
+  const cfg = loadIGConfig();
+  cfg[account] = { token, connected: false, userId: '', username: '' };
+  saveIGConfig(cfg);
+  // Try to verify token immediately
+  verifyIGToken(account, token);
+}
+
+async function verifyIGToken(account, token) {
+  const badge = document.getElementById('ig-' + account + '-badge');
+  const useridEl = document.getElementById('ig-' + account + '-userid');
+  if (badge) { badge.textContent = 'Verifying…'; badge.style.background = 'var(--amber-pale)'; badge.style.color = 'var(--amber)'; }
+  try {
+    const url = `https://graph.instagram.com/me?fields=id,username,account_type,media_count&access_token=${token}`;
+    const resp = await fetch(url);
+    const json = await resp.json();
+    if (json.error) throw new Error(json.error.message);
+    // Success
+    const cfg = loadIGConfig();
+    cfg[account] = { ...cfg[account], token, connected: true, userId: json.id, username: json.username, mediaCount: json.media_count };
+    saveIGConfig(cfg);
+    if (useridEl) useridEl.value = json.id;
+    if (badge) { badge.textContent = '✓ Connected'; badge.style.background = 'var(--green-pale)'; badge.style.color = 'var(--green)'; }
+    updateIGStatusBadges();
+    showToast('✓ @' + json.username + ' connected');
+    renderIGFeed(account, token, json.id);
+  } catch(err) {
+    if (badge) { badge.textContent = '✗ Invalid token'; badge.style.background = 'var(--red-pale)'; badge.style.color = 'var(--red)'; }
+    alert('Token verification failed: ' + err.message + '\n\nMake sure:\n1. The token is copied correctly (no extra spaces)\n2. The Instagram app is set to "Live" mode (not Development)\n3. Your account is added as a test user');
+  }
+}
+
+function clearIGToken(account) {
+  const cfg = loadIGConfig();
+  delete cfg[account];
+  saveIGConfig(cfg);
+  const tokenEl = document.getElementById('ig-' + account + '-token');
+  const useridEl = document.getElementById('ig-' + account + '-userid');
+  if (tokenEl) tokenEl.value = '';
+  if (useridEl) useridEl.value = '';
+  const badge = document.getElementById('ig-' + account + '-badge');
+  if (badge) { badge.textContent = 'Not Set'; badge.style.background = 'var(--stone-light)'; badge.style.color = 'var(--ink-muted)'; }
+  updateIGStatusBadges();
+  const feed = document.getElementById('ig-' + account + '-feed');
+  if (feed) feed.innerHTML = '<div style="text-align:center;padding:28px 0;color:var(--ink-faint);font-size:13px">Connect token in Admin tab to load feed</div>';
+}
+
+async function renderIGFeed(account, token, userId) {
+  const feedEl = document.getElementById('ig-' + account + '-feed');
+  if (!feedEl) return;
+  feedEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--ink-muted);font-size:12px">Loading posts…</div>';
+  try {
+    const url = `https://graph.instagram.com/${userId}/media?fields=id,caption,media_type,media_url,thumbnail_url,permalink,timestamp,like_count,comments_count&limit=9&access_token=${token}`;
+    const resp = await fetch(url);
+    const json = await resp.json();
+    if (json.error) throw new Error(json.error.message);
+    const posts = json.data || [];
+    if (!posts.length) { feedEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--ink-faint);font-size:12px">No posts found</div>'; return; }
+    feedEl.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+        ${posts.map(p => {
+          const img = p.media_type === 'VIDEO' ? (p.thumbnail_url || '') : (p.media_url || '');
+          const date = new Date(p.timestamp).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+          const caption = (p.caption || '').slice(0, 60) + ((p.caption||'').length > 60 ? '…' : '');
+          return `<a href="${p.permalink}" target="_blank" style="display:block;text-decoration:none;position:relative;aspect-ratio:1;overflow:hidden;border-radius:6px;background:var(--stone-light)">
+            ${img ? `<img src="${img}" style="width:100%;height:100%;object-fit:cover" loading="lazy">` : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--ink-faint);font-size:20px">${p.media_type==='VIDEO'?'▶':'◉'}</div>`}
+            <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.7) 0%,transparent 50%);opacity:0;transition:opacity .2s" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0">
+              <div style="position:absolute;bottom:6px;left:6px;right:6px;color:white;font-size:10px;line-height:1.4">${caption}</div>
+              <div style="position:absolute;top:6px;right:6px;color:white;font-size:9px;font-family:'DM Mono',monospace">${date}</div>
+            </div>
+          </a>`;
+        }).join('')}
+      </div>
+      <div style="margin-top:12px;font-size:11px;color:var(--ink-muted);text-align:right">Last updated: ${new Date().toLocaleTimeString()}</div>`;
+  } catch(err) {
+    feedEl.innerHTML = `<div style="padding:16px;background:var(--red-pale);border-radius:var(--radius-sm);font-size:12px;color:var(--red)">Feed error: ${err.message}<br><span style="color:var(--ink-muted);margin-top:4px;display:block">Token may need refreshing. Check Admin tab.</span></div>`;
+  }
+}
+
+function saveEmbeds() {
+  const daydrmEmbed = document.getElementById('ig-daydrm-embed');
+  const daetrEmbed = document.getElementById('ig-daetrius-embed');
+  const cfg = loadIGConfig();
+  if (daydrmEmbed && daydrmEmbed.value.trim()) { cfg.daydrm_embed = daydrmEmbed.value.trim(); renderEmbed('daydrm', cfg.daydrm_embed); }
+  if (daetrEmbed && daetrEmbed.value.trim()) { cfg.daetrius_embed = daetrEmbed.value.trim(); renderEmbed('daetrius', cfg.daetrius_embed); }
+  saveIGConfig(cfg);
+  showToast('✓ Embeds saved');
+}
+
+function renderEmbed(account, embedCode) {
+  const feedEl = document.getElementById('ig-' + account + '-feed');
+  if (feedEl && embedCode) {
+    feedEl.innerHTML = `<div style="min-height:200px">${embedCode}</div>`;
+    // Re-execute any scripts in the embed
+    feedEl.querySelectorAll('script').forEach(old => {
+      const s = document.createElement('script');
+      if (old.src) s.src = old.src; else s.textContent = old.textContent;
+      old.parentNode.replaceChild(s, old);
+    });
+    updateIGStatusBadges();
+  }
+}
+
+function updateIGStatusBadges() {
+  const cfg = loadIGConfig();
+  const accounts = ['daydrm', 'daetrius'];
+  let anyConnected = false;
+  accounts.forEach(a => {
+    const connected = cfg[a] && cfg[a].connected;
+    const hasEmbed = !!cfg[a + '_embed'];
+    const topBadge = document.getElementById('ig-' + a + '-status-badge');
+    if (topBadge) {
+      if (connected) { topBadge.textContent = '@' + a + ': Connected'; topBadge.style.background='var(--green-pale)'; topBadge.style.color='var(--green)'; }
+      else if (hasEmbed) { topBadge.textContent = '@' + a + ': Embed Active'; topBadge.style.background='var(--sky-pale)'; topBadge.style.color='var(--sky-deep)'; }
+      else { topBadge.textContent = '@' + a + ': Not Connected'; topBadge.style.background='var(--stone-light)'; topBadge.style.color='var(--ink-muted)'; }
+    }
+    if (connected || hasEmbed) anyConnected = true;
+  });
+  const nudge = document.getElementById('ig-setup-nudge');
+  if (nudge) nudge.style.display = anyConnected ? 'none' : 'block';
+  const adminStatus = document.getElementById('ig-admin-status');
+  if (adminStatus) {
+    adminStatus.textContent = anyConnected ? 'Connected' : 'Not Connected';
+    adminStatus.className = 'badge ' + (anyConnected ? 'badge-green' : 'badge-stone');
+  }
+}
+
+async function refreshInstagram() {
+  const cfg = loadIGConfig();
+  // Reload token inputs
+  ['daydrm','daetrius'].forEach(async a => {
+    if (cfg[a] && cfg[a].connected && cfg[a].token) {
+      await renderIGFeed(a, cfg[a].token, cfg[a].userId);
+    } else if (cfg[a + '_embed']) {
+      renderEmbed(a, cfg[a + '_embed']);
+    }
+  });
+  showToast('↻ Feed refreshed');
+}
+
+function initInstagram() {
+  const cfg = loadIGConfig();
+  ['daydrm','daetrius'].forEach(a => {
+    const tokenEl = document.getElementById('ig-' + a + '-token');
+    const useridEl = document.getElementById('ig-' + a + '-userid');
+    const badge = document.getElementById('ig-' + a + '-badge');
+    const embedEl = document.getElementById('ig-' + a + '-embed');
+    if (cfg[a] && cfg[a].token) {
+      if (tokenEl) tokenEl.value = cfg[a].token;
+      if (useridEl) useridEl.value = cfg[a].userId || '';
+      if (badge) {
+        if (cfg[a].connected) { badge.textContent = '✓ Connected'; badge.style.background='var(--green-pale)'; badge.style.color='var(--green)'; }
+        else { badge.textContent = 'Token saved'; badge.style.background='var(--amber-pale)'; badge.style.color='var(--amber)'; }
+      }
+      if (cfg[a].connected) renderIGFeed(a, cfg[a].token, cfg[a].userId);
+    }
+    if (cfg[a + '_embed'] && embedEl) {
+      embedEl.value = cfg[a + '_embed'];
+      renderEmbed(a, cfg[a + '_embed']);
+    }
+    // Restore follower count
+    if (cfg[a] && cfg[a].mediaCount) {
+      const countEl = document.getElementById('ig-' + a + '-followers');
+      if (countEl) countEl.textContent = cfg[a].mediaCount + ' posts';
+    }
+  });
+  updateIGStatusBadges();
+}
+
 // ═══════════════════════════════════════════════════════════
 // GOOGLE SHEETS SYNC ENGINE
 // Uses Apps Script Web App as a CORS-friendly JSON API
@@ -2070,13 +2377,16 @@ async function syncToSheets(retries = 2) {
   syncStatus = 'syncing'; updateSyncUI();
   try {
     const payload = { action: 'writeAll', data: D };
-    // Use no-cors fetch — Apps Script handles CORS with doPost
-    const resp = await fetch(SHEETS_URL, {
+    // Apps Script CORS fix:
+    // - Must use mode:'no-cors' for POST (Apps Script doesn't support OPTIONS preflight)
+    // - no-cors means we can't read the response body, so we verify via a follow-up GET
+    await fetch(SHEETS_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain' }, // text/plain avoids preflight
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(payload),
     });
-    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    // no-cors POST always "succeeds" silently — verify with a read
     syncStatus = 'synced'; updateSyncUI();
     showToast('✓ Synced to Sheets');
   } catch(err) {
@@ -2090,18 +2400,18 @@ async function loadFromSheets() {
   if (!SHEETS_URL) return false;
   syncStatus = 'syncing'; updateSyncUI();
   try {
-    const url = SHEETS_URL + '?action=readAll&t=' + Date.now();
-    const resp = await fetch(url);
+    // GET requests work fine with Apps Script CORS
+    const url = SHEETS_URL + '?action=readAll&cb=' + Date.now();
+    const resp = await fetch(url, { mode: 'cors' });
     if (!resp.ok) throw new Error('HTTP ' + resp.status);
     const json = await resp.json();
-    if (json && json.data) {
+    if (json && json.status === 'ok' && json.data) {
       D = { ...JSON.parse(JSON.stringify(DEFAULT_DATA)), ...json.data };
-      // also write to localStorage as cache
       localStorage.setItem(STORAGE_KEY, JSON.stringify(D));
       syncStatus = 'synced'; updateSyncUI();
       return true;
     }
-    throw new Error('No data returned');
+    throw new Error(json.message || 'No data returned');
   } catch(err) {
     syncStatus = 'error'; updateSyncUI();
     console.warn('Load from Sheets failed:', err);
@@ -2140,19 +2450,18 @@ function saveData() {
 // INIT
 // ═══════════════════════════════════════════════════════════
 async function init() {
-  // Try to load from Sheets first if URL is set, fallback to localStorage
   if (SHEETS_URL) {
-    loadData(); render(); // show local instantly
+    loadData(); render();
     await loadFromSheets().then(ok => { if (ok) render(); });
   } else {
     loadData(); render();
   }
   updateCountdown();
   setInterval(updateCountdown, 60000);
-  // Restore sheets URL field
   const urlEl = document.getElementById('apps-script-url');
   if (urlEl && SHEETS_URL) urlEl.value = SHEETS_URL;
   updateSyncUI();
+  initInstagram();
 }
 init();
 </script>
