@@ -1,0 +1,153 @@
+{
+  "app": {
+    "name": "DAETRIUS / DAYDRM Operating System",
+    "version": "1.0.0",
+    "launch_date": "2026-04-01",
+    "year_end": "2027-04-01",
+    "philosophy": "World → Audience → Music"
+  },
+
+  "phases": [
+    {
+      "id": "prep",
+      "name": "Prep Period",
+      "start": "2026-03-10",
+      "end": "2026-03-31",
+      "goal": "Setup & Systems",
+      "color": "#E8C84A",
+      "description": "Build the operating system, lock visual identity, set up Fan Forge, define budget."
+    },
+    {
+      "id": "phase_1",
+      "name": "Phase 1 — World Building",
+      "start": "2026-04-01",
+      "end": "2026-06-30",
+      "goal": "Curiosity",
+      "color": "#6BB8D4",
+      "target_outcome": "People ask: 'Who is DAETRIUS?'"
+    },
+    {
+      "id": "phase_2",
+      "name": "Phase 2 — Cultural Voice",
+      "start": "2026-07-01",
+      "end": "2026-09-30",
+      "goal": "Credibility",
+      "color": "#C4B99A",
+      "target_outcome": "DAETRIUS recognized as a cultural thinker"
+    },
+    {
+      "id": "phase_3",
+      "name": "Phase 3 — Story Expansion",
+      "start": "2026-10-01",
+      "end": "2026-12-31",
+      "goal": "Emotional Connection",
+      "color": "#5BAD8A",
+      "target_outcome": "Audience begins anticipating music"
+    },
+    {
+      "id": "phase_4",
+      "name": "Phase 4 — Music Emergence",
+      "start": "2027-01-01",
+      "end": "2027-04-01",
+      "goal": "Powerful Release Moment",
+      "color": "#E8C84A",
+      "target_outcome": "Music arrives with built-in curiosity and audience investment"
+    }
+  ],
+
+  "pillars": [
+    { "id": 1, "name": "Identity", "color": "#6BB8D4", "themes": ["faith", "self-discovery", "purpose", "transformation"] },
+    { "id": 2, "name": "Aesthetic / DAYDRM", "color": "#E8C84A", "themes": ["DRMSUIT", "HALO", "visual language", "gallery world"] },
+    { "id": 3, "name": "Cultural Dialogue", "color": "#C4B99A", "themes": ["podcasts", "commentary", "faith & culture", "industry"] },
+    { "id": 4, "name": "Storytelling", "color": "#5BAD8A", "themes": ["personal journey", "emotional depth", "narrative arc"] },
+    { "id": 5, "name": "Sound", "color": "#D4614A", "themes": ["gospel soul", "cinematic", "rap/melody hybrid", "vulnerability"] }
+  ],
+
+  "content_types": [
+    "thought_video",
+    "cinematic_monologue",
+    "identity_reflection",
+    "spoken_word",
+    "podcast_clip",
+    "interview_clip",
+    "behind_the_scenes",
+    "daydrm_artifact",
+    "studio_tease",
+    "music_hint",
+    "community_post",
+    "newsletter",
+    "live_moment"
+  ],
+
+  "platforms": ["instagram", "tiktok", "youtube", "twitter_x", "email", "sms"],
+
+  "content_stages": ["idea", "developing", "scripting", "filming", "editing", "approved", "scheduled", "published", "repurposing", "archived"],
+
+  "podcast_categories": ["faith", "culture", "creative", "entrepreneur", "music", "lifestyle"],
+
+  "budget_categories": [
+    "content_production",
+    "photography",
+    "video",
+    "editing",
+    "design",
+    "website_tech",
+    "fanforge_digital",
+    "publicist_pr",
+    "podcast_travel",
+    "wardrobe_daydrm",
+    "merch_samples",
+    "studio",
+    "marketing_paid",
+    "events",
+    "miscellaneous"
+  ],
+
+  "kpi_definitions": {
+    "audience_captures": { "unit": "count", "phase1_target": 500, "phase2_target": 1500, "yearend_target": 5000 },
+    "email_optins": { "unit": "count", "phase1_target": 300, "phase2_target": 750, "yearend_target": 2000 },
+    "sms_optins": { "unit": "count", "phase1_target": 150, "phase2_target": 400, "yearend_target": 1000 },
+    "smart_link_clicks": { "unit": "count", "phase1_target": 1000, "phase2_target": 5000, "yearend_target": 20000 },
+    "instagram_growth": { "unit": "followers", "phase1_target": 2000, "phase2_target": 5000, "yearend_target": 15000 },
+    "engagement_rate": { "unit": "percent", "target": 4.0 },
+    "content_per_month": { "unit": "count", "phase1_target": 12, "phase2_target": 16, "yearend_target": 20 },
+    "podcast_appearances": { "unit": "count", "phase1_target": 0, "phase2_target": 3, "yearend_target": 8 }
+  },
+
+  "fanforge_audience_lanes": ["faith", "culture", "creative", "identity", "music_curiosity"],
+
+  "fanforge_decision_matrix": [
+    { "step": 1, "action": "Organic Test", "description": "Post content. See what resonates naturally." },
+    { "step": 2, "action": "Signal Detection", "description": "Identify which content drives clicks, saves, audience behavior." },
+    { "step": 3, "action": "Precision Amplify", "description": "Put spend behind proven performers only." },
+    { "step": 4, "action": "Capture + Retarget", "description": "Smart link → email/SMS → owned audience database." }
+  ],
+
+  "daydrm_artifacts": [
+    { "id": "drmsuit", "name": "DRMSUIT", "category": "garment", "description": "Signature cinematic garment — philosophy made wearable" },
+    { "id": "halo", "name": "HALO Hat", "category": "headwear", "description": "Spiritual symbol, wearable artifact from the DAYDRM universe" }
+  ],
+
+  "owners": ["Daetrius", "Partner", "TBD", "External"],
+
+  "status_values": {
+    "tasks": ["todo", "in_progress", "blocked", "done", "deferred"],
+    "content": ["idea", "developing", "scripting", "filming", "editing", "approved", "scheduled", "published"],
+    "podcast": ["research", "pitched", "in_talks", "booked", "recorded", "published", "passed"],
+    "budget": ["planned", "approved", "paid", "overdue", "cancelled"],
+    "phases": ["not_started", "active", "complete"]
+  },
+
+  "theme": {
+    "sky": "#6BB8D4",
+    "sky_light": "#B8DFF0",
+    "sky_deep": "#3A8CAA",
+    "stone": "#C4B99A",
+    "maize": "#E8C84A",
+    "white": "#FAFAF8",
+    "ink": "#1A1A1A",
+    "font_display": "Playfair Display",
+    "font_body": "DM Sans",
+    "font_mono": "DM Mono"
+  }
+}
